@@ -1,0 +1,662 @@
+/* Đặt lại style cơ bản cho toàn trang */
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  padding: 20px 20px 280px;
+}
+
+/* Khung thư mời */
+.card {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  max-width: 760px;
+  width: 100%;
+  text-align: center;
+  border-top: 8px solid #1a365d;
+}
+
+h1 {
+  color: #1a365d;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.message {
+  line-height: 1.6;
+  color: #555;
+  margin-bottom: 30px;
+}
+
+/* Khung đồng hồ đếm ngược */
+.countdown-container {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  margin: 30px 0;
+}
+
+.time-box {
+  background: #1a365d;
+  color: white;
+  padding: 15px 10px;
+  border-radius: 8px;
+  width: 70px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.time-box span {
+  display: block;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.time-box small {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  opacity: 0.8;
+}
+
+.event-started {
+  color: #1a365d;
+  margin: 30px 0;
+}
+
+.music-button {
+  border: none;
+  background: #2b6cb0;
+  color: white;
+  font-weight: 600;
+  padding: 10px 18px;
+  border-radius: 999px;
+  cursor: pointer;
+}
+
+.music-button:hover {
+  background: #2c5282;
+}
+
+/* Khung địa điểm */
+.location {
+  background: #edf2f7;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px;
+  border-left: 5px solid #2b6cb0;
+  text-align: left;
+}
+
+.location h3 {
+  margin-top: 0;
+  color: #2d3748;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.location p {
+  margin: 5px 0 0 0;
+  color: #4a5568;
+}
+
+.calendar-actions {
+  margin-top: 18px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.calendar-actions a {
+  background: #ebf8ff;
+  color: #2b6cb0;
+  text-decoration: none;
+  border: 1px solid #90cdf4;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.gallery,
+.map-section,
+.guestbook {
+  margin-top: 24px;
+  text-align: left;
+}
+
+.gallery h3,
+.map-section h3,
+.guestbook h3 {
+  margin: 0 0 10px;
+  color: #2d3748;
+}
+
+.gallery-frame {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  height: 320px;
+}
+
+.gallery-frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.gallery-frame button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 999px;
+  background: rgba(26, 54, 93, 0.7);
+  color: white;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.gallery-frame button:first-of-type {
+  left: 10px;
+}
+
+.gallery-frame button:last-of-type {
+  right: 10px;
+}
+
+.gallery-empty {
+  margin: 0;
+  padding: 16px;
+  border: 1px dashed #a0aec0;
+  border-radius: 10px;
+  color: #4a5568;
+}
+
+.gallery-admin {
+  margin-top: 14px;
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  padding: 12px;
+}
+
+.gallery-admin h4 {
+  margin: 0 0 8px;
+  color: #2d3748;
+}
+
+.gallery-admin form {
+  display: grid;
+  gap: 8px;
+}
+
+.gallery-admin input {
+  width: 100%;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font: inherit;
+}
+
+.gallery-admin button {
+  justify-self: start;
+  border: none;
+  background: #1a365d;
+  color: white;
+  padding: 9px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.google-login-button {
+  background: #db4437;
+}
+
+.google-login-button:hover {
+  background: #c1351d;
+}
+
+.gallery-admin button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.gallery-owner-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.gallery-owner-actions button:last-child {
+  background: #4a5568;
+}
+
+.owner-badge {
+  margin: 0;
+  color: #2b6cb0;
+  font-size: 14px;
+}
+
+.map-section iframe {
+  width: 100%;
+  height: 250px;
+  border: 0;
+  border-radius: 12px;
+}
+
+.signature-section {
+  margin-top: 24px;
+  text-align: left;
+}
+
+.signature-section h3 {
+  margin: 0 0 10px;
+  color: #2d3748;
+}
+
+.signature-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
+}
+
+.signature-toolbar button {
+  border: 1px solid #cbd5e0;
+  background: #fff;
+  color: #2d3748;
+  border-radius: 8px;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.signature-toolbar button.active {
+  background: #2b6cb0;
+  color: #fff;
+  border-color: #2b6cb0;
+}
+
+.signature-toolbar input[type='color'] {
+  width: 42px;
+  height: 38px;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  background: #fff;
+  padding: 4px;
+  cursor: pointer;
+}
+
+.signature-canvas {
+  width: 100%;
+  height: 220px;
+  background: #fff;
+  border: 1px solid #cbd5e0;
+  border-radius: 10px;
+  touch-action: none;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+.guestbook form {
+  display: grid;
+  gap: 10px;
+}
+
+.guestbook input,
+.guestbook textarea {
+  width: 100%;
+  border: 1px solid #cbd5e0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font: inherit;
+}
+
+.guestbook button {
+  justify-self: start;
+  border: none;
+  background: #1a365d;
+  color: white;
+  padding: 9px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.guestbook button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.guestbook-error {
+  margin: 10px 0 0;
+  color: #c53030;
+  font-size: 14px;
+}
+
+.wish-list {
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.wish-item {
+  background: #f7fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 10px 12px;
+}
+
+.wish-message {
+  margin: 0 0 6px;
+  color: #2d3748;
+}
+
+.wish-runner-wrapper {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  width: min(78vw, 420px);
+  z-index: 50;
+}
+
+.wish-runner-list {
+  display: grid;
+  gap: 8px;
+}
+
+.wish-runner {
+  background: rgba(190, 85, 85, 0.88);
+  color: #fff;
+  backdrop-filter: blur(6px);
+  border-radius: 12px;
+  padding: 8px 10px;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  cursor: grab;
+}
+
+.wish-runner:active {
+  cursor: grabbing;
+}
+
+.wish-runner-message {
+  margin: 0 0 4px;
+  font-size: 15px;
+  font-weight: 700;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  line-clamp: 1;
+  overflow: hidden;
+}
+
+.wish-runner small {
+  display: block;
+  opacity: 0.95;
+  font-size: 11px;
+}
+
+.wish-runner-hint {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 11px;
+  opacity: 0.9;
+}
+
+.wish-runner-empty {
+  background: rgba(26, 54, 93, 0.9);
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px 14px;
+}
+
+.guestbook-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 80;
+  padding: 16px;
+}
+
+.guestbook-modal {
+  position: relative;
+  width: min(96vw, 470px);
+  background: #f5efef;
+  border-radius: 18px;
+  padding: 62px 34px 28px;
+  box-shadow: 0 18px 36px rgba(0, 0, 0, 0.22);
+  text-align: center;
+}
+
+.guestbook-heart-icon {
+  position: absolute;
+  left: 50%;
+  top: -28px;
+  transform: translateX(-50%);
+  width: 86px;
+  height: 86px;
+  border-radius: 24px;
+  background: linear-gradient(180deg, #ff8aa0 0%, #f45a72 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 42px;
+  box-shadow: 0 10px 20px rgba(244, 90, 114, 0.45);
+}
+
+.guestbook-close {
+  position: absolute;
+  right: 14px;
+  top: 12px;
+  border: none;
+  background: transparent;
+  color: #9b9b9b;
+  font-size: 34px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.guestbook-modal h3 {
+  margin: 0 0 20px;
+  color: #333;
+  font-size: 46px;
+  font-weight: 700;
+}
+
+.guestbook-modal form {
+  display: grid;
+  gap: 16px;
+  text-align: left;
+}
+
+.guestbook-modal input,
+.guestbook-modal textarea {
+  width: 100%;
+  border: 1px solid #f6b7c1;
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px 14px;
+  font-size: 33px;
+  font-family: inherit;
+  color: #444;
+}
+
+.guestbook-modal textarea {
+  min-height: 116px;
+  resize: vertical;
+}
+
+.guestbook-modal button {
+  border: none;
+  background: #ee556d;
+  color: #fff;
+  padding: 14px 18px;
+  border-radius: 999px;
+  font-size: 36px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.guestbook-modal button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.open-guestbook-button {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  width: 52px;
+  height: 52px;
+  border-radius: 999px;
+  border: none;
+  background: #ee556d;
+  color: #fff;
+  font-size: 24px;
+  box-shadow: 0 8px 16px rgba(238, 85, 109, 0.4);
+  cursor: pointer;
+  z-index: 70;
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 24px;
+  }
+
+  .countdown-container {
+    flex-wrap: wrap;
+  }
+
+  .gallery-frame {
+    height: 230px;
+  }
+
+  .wish-runner {
+    padding: 12px 14px;
+  }
+
+  .wish-runner-message {
+    font-size: 14px;
+  }
+
+  .wish-runner-wrapper {
+    right: 10px;
+    bottom: 10px;
+    width: min(92vw, 360px);
+  }
+
+  .guestbook-modal {
+    padding: 52px 18px 18px;
+    border-radius: 14px;
+  }
+
+  .guestbook-heart-icon {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    font-size: 34px;
+  }
+
+  .guestbook-modal h3 {
+    font-size: 38px;
+    margin-bottom: 14px;
+  }
+
+  .guestbook-modal input,
+  .guestbook-modal textarea {
+    font-size: 24px;
+  }
+
+  .guestbook-modal button {
+    font-size: 28px;
+  }
+}
+
+.splash-screen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  width: 100vw;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  z-index: 9999; /* Đảm bảo đè lên mọi thứ khác */
+}
+
+.envelope {
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+  border-top: 8px solid #1a365d;
+  animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  max-width: 90%;
+}
+
+.envelope h2 {
+  color: #1a365d;
+  margin-top: 0;
+}
+
+.envelope p {
+  color: #555;
+  margin-bottom: 30px;
+}
+
+.open-button {
+  background-color: #1a365d;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  font-size: 18px;
+  font-weight: bold;
+  border-radius: 50px; 
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(26, 54, 93, 0.3);
+}
+
+.open-button:hover {
+  background-color: #2a4a7f;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px rgba(26, 54, 93, 0.4);
+}
+
+/* Hiệu ứng nảy lên (bounce) cho bao thư */
+@keyframes popIn {
+  0% { transform: scale(0.5); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Hiệu ứng mờ dần khi nội dung thiệp hiện ra */
+.fade-in {
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
