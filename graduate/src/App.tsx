@@ -5,6 +5,7 @@ import Wisher from './Wisher.tsx'
 import GallerySection from './GallerySection.tsx'
 import { VolumeX, Volume2 } from 'lucide-react'
 import backgroundMusic from './assets/videoplayback.m4a'
+import bgImage from './assets/8232006.jpg'
 
 function App() {
   const targetDate = new Date('April 25, 2026 08:00:00').getTime()
@@ -81,7 +82,13 @@ function App() {
   }
 
   return (
-    <div className="container">
+    <div className="container"
+    style={{ 
+      backgroundImage: `url(${bgImage})`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center',
+      backgroundAttachment: 'fixed' 
+    }}>
       <audio ref={audioRef} loop preload="auto" src={backgroundMusic} />
 
       {!isOpened ? (
@@ -133,7 +140,7 @@ function App() {
 
             <div className="location">
               <h3>Thông tin sự kiện</h3>
-              <p><strong>Thời gian:</strong> 08:00 Sáng, Chủ Nhật, 25/04/2026</p>
+              <p><strong>Thời gian:</strong> 08:00 Sáng, Thứ 7, 25/04/2026</p>
               <p><strong>Địa điểm:</strong> Nhà Hát Trưng Vương</p>
               <p><strong>Địa chỉ:</strong> 35A Phan Châu Trinh, Hải Châu, Đà Nẵng</p>
             </div>
@@ -150,7 +157,7 @@ function App() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3833.87614073383!2d108.2198083!3d16.0718917!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x314218311b51e089%3A0x6b44a33edb2d1ad2!2sTrung%20Vuong%20Theatre!5e0!3m2!1sen!2s!4v1713580543201!5m2!1sen!2s"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3833.9309489272505!2d108.21807472515883!3d16.069072634610404!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31421833fca0ffff%3A0xea91c290cc7393ce!2zTmjDoCBIw6F0IFRyxrBuZyBWxrDGoW5nIMSQw6AgTuG6tW5n!5e0!3m2!1svi!2s!4v1776647466383!5m2!1svi!2s"
                 title="Google Maps tới Nhà Hát Trưng Vương"
                 width="100%"
                 height="250"

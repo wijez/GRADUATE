@@ -4,10 +4,15 @@
 }
 
 body {
+
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  /* background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
+  /* background-image: url('../assets/8232006.jpg'); 
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat;  */
 }
 
 .container {

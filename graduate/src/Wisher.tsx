@@ -41,7 +41,7 @@ function Wisher() {
   const [isGuestbookOpen, setIsGuestbookOpen] = useState(false)
   const [guestbookError, setGuestbookError] = useState('')
   const [isSubmittingWish, setIsSubmittingWish] = useState(false)
-  const visibleWishCount = 7
+  const visibleWishCount = 5
 
   useEffect(() => {
     const wishesQuery = query(collection(db, 'wishes'), orderBy('createdAt', 'desc'), limit(20))

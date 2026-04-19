@@ -10,6 +10,7 @@ type GalleryImage = {
   id: string
   src: string
   alt: string
+  ownerEmail: string | undefined 
 }
 
 const mapFirebaseError = (error: unknown) => {
@@ -71,14 +72,15 @@ function GallerySection() {
       (snapshot) => {
         const images = snapshot.docs
           .map((doc) => {
-            const data = doc.data() as { src?: string; alt?: string }
+            const data = doc.data() as { src?: string; alt?: string; ownerEmail?: string }
             if (!data.src) {
               return null
             }
             return {
               id: doc.id,
               src: data.src,
-              alt: data.alt ?? 'Anh ky yeu'
+              alt: data.alt ?? 'Anh ky yeu',
+              ownerEmail: data.ownerEmail 
             }
           })
           .filter((item): item is GalleryImage => item !== null)
@@ -152,6 +154,7 @@ function GallerySection() {
         src: sourceUrl,
         alt: imageCaption || 'Anh ky yeu',
         ownerUid: ownerUser.uid,
+        ownerEmail: ownerUser.email,
         createdAt: serverTimestamp()
       })
       setNewImageUrl('')
@@ -167,9 +170,14 @@ function GallerySection() {
 
   return (
     <section className="gallery">
-      <h3>Thư viện ảnh kỷ yếu</h3>
       {galleryImages.length > 0 ? (
         <div className="gallery-frame">
+          {galleryImages[activeImage].ownerEmail && (
+            <div className="gallery-uploader-email">
+              Đăng bởi: {galleryImages[activeImage].ownerEmail}
+            </div>
+          )}
+          
           <img alt={galleryImages[activeImage].alt} src={galleryImages[activeImage].src} />
           <button aria-label="Ảnh trước" onClick={() => setActiveImage((activeImage - 1 + galleryImages.length) % galleryImages.length)} type="button">
             ‹
@@ -184,10 +192,12 @@ function GallerySection() {
       {galleryError ? <p className="guestbook-error">{galleryError}</p> : null}
 
       <div className="gallery-admin">
-        <h4>Quản trị thư viện ảnh</h4>
+        <h3 style={{ color: "blue", fontSize: "14px" }}>
+          <span><strong>Note:</strong></span> Bạn có thể thêm hình ảnh ở đây
+        </h3>
         {!ownerUser ? (
           <button className="google-login-button" disabled={isOwnerLoading} onClick={loginOwnerWithGoogle} type="button">
-            {isOwnerLoading ? 'Đang đăng nhập...' : 'Đăng nhập Google để thêm ảnh'}
+            {isOwnerLoading ? 'Đang đăng nhập...' : 'Đăng nhập'}
           </button>
         ) : (
           <form onSubmit={addGalleryImage}>
