@@ -112,7 +112,7 @@ function App() {
             </div>
 
             <button className="music-button" onClick={toggleMusic} type="button">
-              {isPlaying ? <VolumeX /> : <Volume2 />}
+              {isPlaying ? <Volume2 /> : <VolumeX />}
             </button>
 
             {timeLeft ? (

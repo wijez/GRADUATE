@@ -557,17 +557,20 @@ h1 {
   }
 
   .wish-runner {
-    padding: 12px 14px;
+    padding: 6px 10px;
   }
 
   .wish-runner-message {
-    font-size: 14px;
+    font-size: 12px;
+    font-weight: 500;
+
   }
 
   .wish-runner-wrapper {
-    right: 10px;
+    left: 10px;
+    right: auto;
     bottom: 10px;
-    width: min(92vw, 360px);
+    width: min(75vw, 260px);
   }
 
   .guestbook-modal {

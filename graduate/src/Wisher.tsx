@@ -41,7 +41,7 @@ function Wisher() {
   const [isGuestbookOpen, setIsGuestbookOpen] = useState(false)
   const [guestbookError, setGuestbookError] = useState('')
   const [isSubmittingWish, setIsSubmittingWish] = useState(false)
-  const visibleWishCount = 5
+  const visibleWishCount = 3
 
   useEffect(() => {
     const wishesQuery = query(collection(db, 'wishes'), orderBy('createdAt', 'desc'), limit(20))
@@ -128,24 +128,29 @@ function Wisher() {
       <div className="wish-runner-wrapper">
         {runnerWishes.length > 0 ? (
           <motion.div className="wish-runner-list" layout>
-            <AnimatePresence initial={false}>
-              {runnerWishes.map((wish, index) => (
-                <motion.article
-                  animate={{ opacity: 1, y: 0 }}
-                  className="wish-runner"
-                  exit={{ opacity: 0, y: -40 }}
-                  initial={{ opacity: 0, y: 40 }}
-                  key={`${wish.id}-${index}`}
-                  layout
-                  transition={{ duration: 0.7, ease: 'easeOut' }}
-                >
-                  <p className="wish-runner-message">{wish.message}</p>
-                  <small>{wish.name} • {wish.createdAt}</small>
-                </motion.article>
-              ))}
-            </AnimatePresence>
-            {wishes.length > 1 ? <span className="wish-runner-hint">Lời chúc mới sẽ xuất hiện ở dưới và đẩy dần lên trên</span> : null}
-          </motion.div>
+          <AnimatePresence initial={false} mode="popLayout">
+            {runnerWishes.map((wish) => (
+              <motion.article
+                layout
+                initial={{ opacity: 0, y: 50, scale: 0.9 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -40, scale: 0.9, transition: { duration: 0.2 } }}
+                transition={{ 
+                  type: "spring",    
+                  stiffness: 350,    
+                  damping: 25,       
+                  mass: 0.8 
+                }}
+                className="wish-runner"
+                key={wish.id}
+              >
+                <p className="wish-runner-message">{wish.message}</p>
+                <small>{wish.name} • {wish.createdAt}</small>
+              </motion.article>
+            ))}
+          </AnimatePresence>
+          {wishes.length > 1 ? <span className="wish-runner-hint">Lời chúc mới sẽ xuất hiện ở dưới và đẩy dần lên trên</span> : null}
+        </motion.div>
         ) : (
           <div className="wish-runner-empty">Chưa có lời chúc nào.</div>
         )}
