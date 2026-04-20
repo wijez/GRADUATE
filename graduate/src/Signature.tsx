@@ -61,6 +61,25 @@ function Signature() {
     return () => window.removeEventListener('resize', handleResize)
   }, [])
 
+  useEffect(() => {
+    const canvas = signatureCanvasRef.current;
+    if (!canvas) return;
+
+    const preventScroll = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        e.preventDefault();
+      }
+    };
+
+    canvas.addEventListener('touchstart', preventScroll, { passive: false });
+    canvas.addEventListener('touchmove', preventScroll, { passive: false });
+
+    return () => {
+      canvas.removeEventListener('touchstart', preventScroll);
+      canvas.removeEventListener('touchmove', preventScroll);
+    };
+  }, []);
+
   const getCanvasPoint = (event: ReactPointerEvent<HTMLCanvasElement>) => {
     const canvas = signatureCanvasRef.current
     if (!canvas) return null

@@ -2,9 +2,8 @@ import { useEffect, useState, type FormEvent } from 'react'
 import { GoogleAuthProvider, onAuthStateChanged, signInWithPopup, signOut, type User } from 'firebase/auth'
 import { FirebaseError } from 'firebase/app'
 import { addDoc, collection, limit, onSnapshot, orderBy, query, serverTimestamp } from 'firebase/firestore'
-import { getDownloadURL, ref, uploadBytes } from 'firebase/storage'
 
-import { auth, db, storage } from './firebase'
+import { auth, db } from './firebase' 
 
 type GalleryImage = {
   id: string
@@ -17,21 +16,60 @@ const mapFirebaseError = (error: unknown) => {
   if (!(error instanceof FirebaseError)) {
     return 'Kết nối Firebase thất bại. Vui lòng thử lại.'
   }
-
   if (error.code === 'permission-denied') {
     return 'Firebase đang chặn quyền đọc/ghi. Hãy mở Firestore Rules cho thư viện ảnh.'
   }
-
-  if (error.code === 'failed-precondition') {
-    return 'Firestore/Storage chưa được bật cho project. Hãy vào Firebase Console để tạo.'
-  }
-
-  if (error.code === 'unavailable') {
-    return 'Firebase tạm thời không phản hồi. Kiểm tra mạng và thử lại.'
-  }
-
   return `Firebase lỗi: ${error.code}`
 }
+
+const compressImageToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    
+    reader.onload = (event) => {
+      const img = new Image();
+      img.src = event.target?.result as string;
+      
+      img.onload = () => {
+        const canvas = document.createElement('canvas');
+        const MAX_WIDTH = 800; 
+        const MAX_HEIGHT = 800; 
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height) {
+          if (width > MAX_WIDTH) {
+            height *= MAX_WIDTH / width;
+            width = MAX_WIDTH;
+          }
+        } else {
+          if (height > MAX_HEIGHT) {
+            width *= MAX_HEIGHT / height;
+            height = MAX_HEIGHT;
+          }
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+
+        const ctx = canvas.getContext('2d');
+        if (!ctx) {
+          reject(new Error("Không thể khởi tạo Canvas 2D"));
+          return;
+        }
+
+        ctx.drawImage(img, 0, 0, width, height);
+        const base64String = canvas.toDataURL('image/jpeg', 0.7);
+        resolve(base64String);
+      };
+      
+      img.onerror = (error) => reject(error);
+    };
+    
+    reader.onerror = (error) => reject(error);
+  });
+};
 
 function GallerySection() {
   const [activeImage, setActiveImage] = useState(0)
@@ -55,10 +93,8 @@ function GallerySection() {
   useEffect(() => {
     const slider = setInterval(() => {
       setActiveImage((current) => {
-        if (galleryImages.length <= 1) {
-          return 0
-        }
-        return (current + 1) % galleryImages.length
+        if (galleryImages.length <= 1) return 0;
+        return (current + 1) % galleryImages.length;
       })
     }, 5000)
 
@@ -73,9 +109,7 @@ function GallerySection() {
         const images = snapshot.docs
           .map((doc) => {
             const data = doc.data() as { src?: string; alt?: string; ownerEmail?: string }
-            if (!data.src) {
-              return null
-            }
+            if (!data.src) return null;
             return {
               id: doc.id,
               src: data.src,
@@ -87,9 +121,7 @@ function GallerySection() {
 
         setGalleryImages(images)
         setActiveImage((current) => {
-          if (images.length === 0) {
-            return 0
-          }
+          if (images.length === 0) return 0;
           return Math.min(current, images.length - 1)
         })
         setGalleryError('')
@@ -140,16 +172,17 @@ function GallerySection() {
 
     try {
       setIsAddingImage(true)
+      setOwnerError('')
+      
       let sourceUrl = imageUrl
 
       if (selectedImageFile) {
-        const safeName = selectedImageFile.name.replace(/\s+/g, '-').toLowerCase()
-        const path = `gallery/${ownerUser.uid}/${Date.now()}-${safeName}`
-        const fileRef = ref(storage, path)
-        await uploadBytes(fileRef, selectedImageFile)
-        sourceUrl = await getDownloadURL(fileRef)
+        try {
+          sourceUrl = await compressImageToBase64(selectedImageFile);
+        } catch (err) {
+          throw new Error("Lỗi khi xử lý hình ảnh. Vui lòng thử ảnh khác.");
+        }
       }
-
       await addDoc(collection(db, 'galleryImages'), {
         src: sourceUrl,
         alt: imageCaption || 'Anh ky yeu',
@@ -157,12 +190,20 @@ function GallerySection() {
         ownerEmail: ownerUser.email,
         createdAt: serverTimestamp()
       })
+      
       setNewImageUrl('')
       setNewImageCaption('')
       setSelectedImageFile(null)
-      setOwnerError('')
+      
+      const fileInput = document.getElementById('gallery-file-input') as HTMLInputElement;
+      if (fileInput) fileInput.value = '';
+
     } catch (error) {
-      setOwnerError(mapFirebaseError(error))
+      if (error instanceof Error) {
+        setOwnerError(error.message)
+      } else {
+        setOwnerError(mapFirebaseError(error))
+      }
     } finally {
       setIsAddingImage(false)
     }
@@ -173,7 +214,10 @@ function GallerySection() {
       {galleryImages.length > 0 ? (
         <div className="gallery-frame">
           {galleryImages[activeImage].ownerEmail && (
-            <div className="gallery-uploader-email">
+            <div className="gallery-uploader-email" style={{
+              position: 'absolute', top: '10px', left: '10px', background: 'rgba(0,0,0,0.5)', 
+              color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px', zIndex: 10
+            }}>
               Đăng bởi: {galleryImages[activeImage].ownerEmail}
             </div>
           )}
@@ -192,7 +236,7 @@ function GallerySection() {
       {galleryError ? <p className="guestbook-error">{galleryError}</p> : null}
 
       <div className="gallery-admin">
-        <h3 style={{ color: "blue", fontSize: "14px" }}>
+        <h3 style={{ color: "blue", fontSize: "14px", margin: "0 0 10px 0" }}>
           <span><strong>Note:</strong></span> Bạn có thể thêm hình ảnh ở đây
         </h3>
         {!ownerUser ? (
@@ -202,11 +246,24 @@ function GallerySection() {
         ) : (
           <form onSubmit={addGalleryImage}>
             <p className="owner-badge">Đã đăng nhập: {ownerUser.email}</p>
-            <input onChange={(event) => setNewImageUrl(event.target.value)} placeholder="Link ảnh (https://...) - không bắt buộc nếu đã chọn file" value={newImageUrl} />
-            <input accept="image/*" onChange={(event) => setSelectedImageFile(event.target.files?.[0] ?? null)} type="file" />
-            <input onChange={(event) => setNewImageCaption(event.target.value)} placeholder="Mô tả ảnh (tuỳ chọn)" value={newImageCaption} />
+            <input 
+              onChange={(event) => setNewImageUrl(event.target.value)} 
+              placeholder="Link ảnh (https://...) - không bắt buộc nếu đã chọn file" 
+              value={newImageUrl} 
+            />
+            <input 
+              id="gallery-file-input"
+              accept="image/*" 
+              onChange={(event) => setSelectedImageFile(event.target.files?.[0] ?? null)} 
+              type="file" 
+            />
+            <input 
+              onChange={(event) => setNewImageCaption(event.target.value)} 
+              placeholder="Mô tả ảnh (tuỳ chọn)" 
+              value={newImageCaption} 
+            />
             <div className="gallery-owner-actions">
-              <button disabled={isAddingImage} type="submit">{isAddingImage ? 'Đang thêm ảnh...' : 'Thêm ảnh'}</button>
+              <button disabled={isAddingImage} type="submit">{isAddingImage ? 'Đang tải lên...' : 'Thêm ảnh'}</button>
               <button onClick={logoutOwner} type="button">Đăng xuất</button>
             </div>
           </form>
